@@ -1,0 +1,84 @@
+import Select from 'ni-ui/select';
+import Input from 'ni-ui/input';
+import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
+import styles from '../styles.scss';
+import { isBetaFeatureEnabled } from '../../../../utils';
+
+const AddPan = ({
+  formData, setFormData, listTypeVal, setListType,
+}) => {
+  const getTitle = (listType) => {
+    let title = '';
+    switch (listType) {
+      case 'emailBlacklist':
+        title = 'ADD_TO_EMAIL_BLACKLIST';
+        break;
+      case 'emailWhitelist':
+        title = 'ADD_TO_EMAIL_WHITELIST';
+        break;
+      default:
+        title = 'ADD_TO_DOMAIN_BLACKLIST';
+        break;
+    }
+    return title;
+  };
+  return (
+    isBetaFeatureEnabled() ? (
+      <Fragment >
+        <div className={styles.listType}>
+          <Select
+            title={getTitle(listTypeVal)}
+            defaultValue={listTypeVal}
+            onSelect={change => setListType(change.type)}
+            options={
+                        [
+                          { id: 'emailBlacklist', text: 'Email Blacklist', name: 'type' },
+                          { id: 'emailWhitelist', text: 'Email Whitelist', name: 'type' },
+                          { id: 'emailDomainBlacklist', text: 'Domain', name: 'type' },
+                        ]
+                      }
+            showClearButton={false}
+          />
+        </div>
+        <div className={styles.listItem}>
+          <Input
+            labelKey={listTypeVal === 'emailDomainBlacklist' ? 'DOMAIN_BLACKLIST_INPUT' : 'EMAIL_BLACKLIST_INPUT'}
+            value={formData.value}
+            onChange={change => setFormData('value', (change || '').replace(/ /g, ''))}
+          />
+        </div>
+      </Fragment>)
+      : (
+        <Fragment >
+          <div className={styles.listType}>
+            <Select
+              title={listTypeVal === 'emailBlacklist' ? 'ADD_TO_EMAIL_BLACKLIST' : 'ADD_TO_DOMAIN_BLACKLIST'}
+              defaultValue={listTypeVal}
+              onSelect={change => setListType(change.type)}
+              options={
+                        [
+                          { id: 'emailBlacklist', text: 'Email', name: 'type' },
+                          { id: 'emailDomainBlacklist', text: 'Domain', name: 'type' },
+                        ]
+                      }
+              showClearButton={false}
+            />
+          </div>
+          <div className={styles.listItem}>
+            <Input
+              labelKey={listTypeVal === 'emailBlacklist' ? 'EMAIL_BLACKLIST_INPUT' : 'DOMAIN_BLACKLIST_INPUT'}
+              value={formData.value}
+              onChange={change => setFormData('value', (change || '').replace(/ /g, ''))}
+            />
+          </div>
+        </Fragment>)
+  );
+};
+AddPan.propTypes = {
+  formData: PropTypes.shape({}).isRequired,
+  setFormData: PropTypes.func.isRequired,
+  listTypeVal: PropTypes.string.isRequired,
+  setListType: PropTypes.func.isRequired,
+};
+export default AddPan;

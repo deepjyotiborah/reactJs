@@ -71,7 +71,8 @@ const AppUse = props => {
     }
 
     const style = {
-        backgroundColor: 'White',
+        backgroundColor: 'Green',
+        color: 'White',
         font: 'inherit',
         border: '1px solid blue',
         padding: '8px',
@@ -79,13 +80,14 @@ const AppUse = props => {
     }
 
     return (
+        
         <div className="App">
             <h1> It's a react app</h1>
             <button
                 style={style} onClick={togglePersons} value="Switch" > Toggle Persons
             </button>
-            {personsState.showPersons ?
-
+            {
+                personsState.showPersons ?
                 <div>
                     {
                         personsState.persons.map((person, index) => {
@@ -96,7 +98,9 @@ const AppUse = props => {
                         })
                     }
                 </div> : null
+                 
             }
+            { personsState.showPersons ? style.backgroundColor = 'Red' : null}
         </div>
     );
 

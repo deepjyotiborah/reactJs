@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import './App.css'
 import Person from './Person/Person.js'
-import Radium from 'radium'
+import Radium, { StyleRoot } from 'radium'
 
 const AppUse = props => {
     const [personsState, setPersons] = useState({
         persons: [
-            { id:'1',name: "Deep", age: "34" },
-            { id:'2',name: "urmi", age: "30" },
-            { id:'3',name: "Adam", age: "35" }
+            { id: '1', name: "Deep", age: "34" },
+            { id: '2', name: "urmi", age: "30" },
+            { id: '3', name: "Adam", age: "35" }
         ],
         otherState: 'Some other state',
         showPersons: true
@@ -40,7 +40,7 @@ const AppUse = props => {
         };
 
         person.name = event.target.value;
-        
+
         const persons = [...personsState.persons];
         persons[personIdx] = person;
 
@@ -89,46 +89,48 @@ const AppUse = props => {
         if (personsState.persons.length <= 2) {
             classes.push('red');
         }
-        if(personsState.persons.length <= 1) {
+        if (personsState.persons.length <= 1) {
             classes.push('bold')
         }
         console.log(classes);
-        
+
         return classes.join(' ');
     }
 
     const getShowPersonsStyle = () => {
-        style.backgroundColor = 'Red'; 
-        style[':hover']={
+        style.backgroundColor = 'Red';
+        style[':hover'] = {
             backgroundColor: 'salmon',
             color: 'Black'
         };
     }
 
     return (
-        
-        <div className="App">
-            <h1> It's a react app</h1>  
-            <p className = {getClasses()}>This is really working!!!</p>
-            <button
-                style={style} onClick={togglePersons} value="Switch" > Toggle Persons
+
+        <StyleRoot>
+            <div className="App">
+                <h1> It's a react app</h1>
+                <p className={getClasses()}>This is really working!!!</p>
+                <button
+                    style={style} onClick={togglePersons} value="Switch" > Toggle Persons
             </button>
-            {
-                personsState.showPersons ?
-                <div>
-                    {
-                        personsState.persons.map((person, index) => {
-                            return <Person click={() => deletePersonHandler(index)} 
-                                changed={(event) => nameChangeHandler(event, person.id)}
-                                name={person.name} age={person.age} key={person.id}>
-                            </Person>
-                        })
-                    }
-                </div> : null
-                 
-            }
-            { personsState.showPersons ? getShowPersonsStyle() : null }
-        </div>
+                {
+                    personsState.showPersons ?
+                        <div>
+                            {
+                                personsState.persons.map((person, index) => {
+                                    return <Person click={() => deletePersonHandler(index)}
+                                        changed={(event) => nameChangeHandler(event, person.id)}
+                                        name={person.name} age={person.age} key={person.id}>
+                                    </Person>
+                                })
+                            }
+                        </div> : null
+
+                }
+                {personsState.showPersons ? getShowPersonsStyle() : null}
+            </div>
+        </StyleRoot>
     );
 
 }

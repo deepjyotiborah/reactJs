@@ -79,10 +79,24 @@ const AppUse = props => {
         cursoe: 'pointer'
     }
 
+    const getClasses = () => {
+        const classes = [];
+        if (personsState.persons.length <= 2) {
+            classes.push('red');
+        }
+        if(personsState.persons.length <= 1) {
+            classes.push('bold')
+        }
+        console.log(classes);
+        
+        return classes.join(' ');
+    }
+
     return (
         
         <div className="App">
-            <h1> It's a react app</h1>
+            <h1> It's a react app</h1>  
+            <p className = {getClasses()}>This is really working!!!</p>
             <button
                 style={style} onClick={togglePersons} value="Switch" > Toggle Persons
             </button>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './App.css'
 import Person from './Person/Person.js'
-import Radium, { StyleRoot } from 'radium'
+// import Radium, { StyleRoot } from 'radium'
 
 const AppUse = props => {
     const [personsState, setPersons] = useState({
@@ -106,8 +106,6 @@ const AppUse = props => {
     }
 
     return (
-
-        <StyleRoot>
             <div className="App">
                 <h1> It's a react app</h1>
                 <p className={getClasses()}>This is really working!!!</p>
@@ -130,9 +128,8 @@ const AppUse = props => {
                 }
                 {personsState.showPersons ? getShowPersonsStyle() : null}
             </div>
-        </StyleRoot>
     );
 
 }
 
-export default Radium(AppUse);
+export default AppUse;

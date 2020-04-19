@@ -1,7 +1,22 @@
 import React, { useState } from 'react'
 import './App.css'
 import Person from './Person/Person.js'
-// import Radium, { StyleRoot } from 'radium'
+import styled from 'styled-components'
+import Radium, { StyleRoot } from 'radium'
+import { salmon } from 'color-name'
+
+const StyledButton = styled.button`
+        background-color: ${props => props.isShowPersonEnabled ? 'red' : 'green' };
+        color: white;
+        font: inherit;
+        border: 1px solid blue;
+        padding: 8px;
+        cursoe: pointer;
+        &:hover {
+            background-color: ${props =>  props.isShowPersonEnabled ? 'salmon' : 'lightGreen' };
+            color: Black;
+        }
+    `;
 
 const AppUse = props => {
     const [personsState, setPersons] = useState({
@@ -109,9 +124,9 @@ const AppUse = props => {
             <div className="App">
                 <h1> It's a react app</h1>
                 <p className={getClasses()}>This is really working!!!</p>
-                <button
-                    style={style} onClick={togglePersons} value="Switch" > Toggle Persons
-            </button>
+                <StyledButton isShowPersonEnabled = {personsState.showPersons}
+                    onClick={togglePersons} value="Switch" > Toggle Persons
+                </StyledButton>
                 {
                     personsState.showPersons ?
                         <div>
@@ -126,7 +141,7 @@ const AppUse = props => {
                         </div> : null
 
                 }
-                {personsState.showPersons ? getShowPersonsStyle() : null}
+                {/* {personsState.showPersons ? getShowPersonsStyle() : null} */}
             </div>
     );
 

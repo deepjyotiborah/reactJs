@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import './App.css'
 import Person from './Person/Person.js'
 import styled from 'styled-components'
-import Radium, { StyleRoot } from 'radium'
-import { salmon } from 'color-name'
+//import Radium, { StyleRoot } from 'radium'
+import ErrorBoundary from './ErrorBoundary/ErroBoundary'
+
 
 const StyledButton = styled.button`
         background-color: ${props => props.isShowPersonEnabled ? 'red' : 'green' };
@@ -67,6 +68,10 @@ const AppUse = props => {
     }
 
     const togglePersons = () => {
+        let random = Math.random();
+        if (random > 0.7) {
+            throw Error('Something went wrong!!!')
+        }
         const doesShow = personsState.showPersons;
         setPersons({
             persons: personsState.persons,
@@ -132,10 +137,10 @@ const AppUse = props => {
                         <div>
                             {
                                 personsState.persons.map((person, index) => {
-                                    return <Person click={() => deletePersonHandler(index)}
+                                    return <ErrorBoundary key={person.id}><Person click={() => deletePersonHandler(index)}
                                         changed={(event) => nameChangeHandler(event, person.id)}
-                                        name={person.name} age={person.age} key={person.id}>
-                                    </Person>
+                                        name={person.name} age={person.age} >
+                                    </Person> </ErrorBoundary>
                                 })
                             }
                         </div> : null

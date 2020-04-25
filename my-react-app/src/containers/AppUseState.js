@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import './App.css'
-import Person from './Person/Person.js'
+import Persons from '../components/Persons/Persons'
 import styled from 'styled-components'
 //import Radium, { StyleRoot } from 'radium'
-import ErrorBoundary from './ErrorBoundary/ErroBoundary'
 
 
 const StyledButton = styled.button`
@@ -135,18 +134,15 @@ const AppUse = props => {
                 {
                     personsState.showPersons ?
                         <div>
-                            {
-                                personsState.persons.map((person, index) => {
-                                    return <ErrorBoundary key={person.id}><Person click={() => deletePersonHandler(index)}
-                                        changed={(event) => nameChangeHandler(event, person.id)}
-                                        name={person.name} age={person.age} >
-                                    </Person> </ErrorBoundary>
-                                })
-                            }
+                            <Persons persons={personsState.persons}
+                                     click={deletePersonHandler}
+                                     changed={nameChangeHandler}
+                            />
+                            
                         </div> : null
 
                 }
-                {/* {personsState.showPersons ? getShowPersonsStyle() : null} */}
+                {/* { {personsState.showPersons ? getShowPersonsStyle() : null} } */}
             </div>
     );
 

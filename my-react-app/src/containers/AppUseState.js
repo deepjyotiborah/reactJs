@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/cockpit/cockpit'
+import classes from './App.module.css'
 
-const AppUse = props => {
-    const [personsState, setPersons] = useState({
+class AppUse extends Component {
+    state = {
         persons: [
             { id: '1', name: "Deep", age: "34" },
             { id: '2', name: "urmi", age: "30" },
@@ -11,76 +12,59 @@ const AppUse = props => {
         ],
         otherState: 'Some other state',
         showPersons: true
-    });
+    }
 
-    const nameChangeHandler = (event, id) => {
-        const personIdx = personsState.persons.findIndex(p => {
+        nameChangeHandler = (event, id) => {
+        const personIdx = this.state.persons.findIndex(p => {
             return p.id === id;
         });
 
-        const p = personsState.persons.find(pp => {
-            return pp.id === id;
-        })
-
         const person = {
-            ...personsState.persons[personIdx]
+            ...this.state.persons[personIdx]
         };
 
         person.name = event.target.value;
 
-        const persons = [...personsState.persons];
+        const persons = [...this.state.persons];
         persons[personIdx] = person;
 
-        setPersons({
-            persons: persons,
-            otherState: personsState.otherState,
-            showPersons: personsState.showPersons
-        })
+        this.setState({persons: persons});
     }
 
-    const togglePersons = () => {
-        let random = Math.random();
-        // if (random > 0.7) {
-        //     throw Error('Something went wrong!!!')
-        // }
-        const doesShow = personsState.showPersons;
-        setPersons({
-            persons: personsState.persons,
-            otherState: personsState.otherState,
-            showPersons: !doesShow
-        });
-    }
-
-    const deletePersonHandler = (index) => {
+    deletePersonHandler = (index) => {
         //const persons = personsState.persons.slice();
-        const persons = [...personsState.persons];
+        const persons = [...this.state.persons];
         persons.splice(index, 1);
-        setPersons({
-            persons: persons,
-            otherState: personsState.otherState,
-            showPersons: personsState.showPersons
-        });
+        this.setState({persons: persons});
     }
 
-    return (
-        <div>
-            <Cockpit onClick={togglePersons}
-                showPersons={personsState.showPersons}
-                persons={personsState.persons} />
-            {
+    togglePersons = () => {
+        const doesShow = this.state.showPersons;
+        this.setState({showPersons: !doesShow});
+    }
 
-                personsState.showPersons ?
-                    <div>
-                        <Persons persons={personsState.persons}
-                            click={deletePersonHandler}
-                            changed={nameChangeHandler}
-                        />
-
-                    </div> : null
-            }
-        </div>
-    );
-
+    render() {
+        let persons = null;
+        if (this.state.showPersons) {
+            persons = (
+                <Persons
+                    persons={this.state.persons}
+                    click={this.deletePersonHandler}
+                    changed={this.nameChangeHandler} />
+            )
+        }
+        return (
+            <div className={classes.App}>
+                <Cockpit
+                    appTitle={this.props.title}
+                    onClick={this.togglePersons}
+                    showPersons={this.state.showPersons}
+                    persons={this.state.persons}
+                />
+                {persons}
+            </div>
+        );
+    }
 }
 
-export default AppUse;
+ export default AppUse;

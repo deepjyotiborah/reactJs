@@ -24,7 +24,7 @@ const cockpit = (props) => {
 
     return (
         <div className={classes.Cockpit}>
-            <h1> It's a react app</h1>
+            <h1> {props.appTitle}</h1>
             <p className= {getClasses()}>This is really working!!!</p>
             <button className={getBtnClass()}
                 onClick={props.onClick} value="Switch" > Toggle Persons

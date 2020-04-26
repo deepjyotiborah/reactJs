@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 const person = (props) => {
    
+    console.log('[Person.js] called.')
     const StyledDiv = styled.div`
         width: 60%;
         margin: auto;

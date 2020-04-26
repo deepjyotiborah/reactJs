@@ -4,6 +4,12 @@ import Cockpit from '../components/cockpit/cockpit'
 import classes from './App.module.css'
 
 class AppUse extends Component {
+
+    constructor(props) {
+        console.log('[AppUse.js] costructor called.')
+        super(props);
+    }
+
     state = {
         persons: [
             { id: '1', name: "Deep", age: "34" },
@@ -14,7 +20,16 @@ class AppUse extends Component {
         showPersons: true
     }
 
-        nameChangeHandler = (event, id) => {
+    static getDerivedStateFromProps(props, state) {
+        console.log('[AppUse.js] getDerivedStateFromProps called ' + props);
+        return state;
+    }
+
+    componentDidMount() {
+        console.log('[AppUse.js] componentDidMount called.')
+    }
+
+    nameChangeHandler = (event, id) => {
         const personIdx = this.state.persons.findIndex(p => {
             return p.id === id;
         });
@@ -28,22 +43,23 @@ class AppUse extends Component {
         const persons = [...this.state.persons];
         persons[personIdx] = person;
 
-        this.setState({persons: persons});
+        this.setState({ persons: persons });
     }
 
     deletePersonHandler = (index) => {
         //const persons = personsState.persons.slice();
         const persons = [...this.state.persons];
         persons.splice(index, 1);
-        this.setState({persons: persons});
+        this.setState({ persons: persons });
     }
 
     togglePersons = () => {
         const doesShow = this.state.showPersons;
-        this.setState({showPersons: !doesShow});
+        this.setState({ showPersons: !doesShow });
     }
 
     render() {
+        console.log('[AppUse.js] render called.')
         let persons = null;
         if (this.state.showPersons) {
             persons = (
@@ -67,4 +83,4 @@ class AppUse extends Component {
     }
 }
 
- export default AppUse;
+export default AppUse;

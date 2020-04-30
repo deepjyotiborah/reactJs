@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classes from './cockpit.module.css'
 
-const cockpit = (props) => {
+const Cockpit = props => {
+    useEffect(() => {
+        console.log('[Cockpit.js] useEffect called.')
+
+        const timer = setTimeout(() => {
+            alert("Saved to cloud.");
+        }, 1000);
+        return () => {
+            clearTimeout(timer);
+            console.log("[cockpit.js] clean up effect.")
+        }
+    }, [props.persons]);
+
 
     const getClasses = () => {
         const assignedClasses = [];
@@ -25,7 +37,7 @@ const cockpit = (props) => {
     return (
         <div className={classes.Cockpit}>
             <h1> {props.appTitle}</h1>
-            <p className= {getClasses()}>This is really working!!!</p>
+            <p className={getClasses()}>This is really working!!!</p>
             <button className={getBtnClass()}
                 onClick={props.onClick} value="Switch" > Toggle Persons
                 </button>
@@ -33,4 +45,4 @@ const cockpit = (props) => {
     );
 }
 
-export default cockpit;
+export default Cockpit;

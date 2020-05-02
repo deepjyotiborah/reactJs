@@ -1,8 +1,5 @@
 import React, {Component} from 'react'
-//  import Person from './Person.css'
-//import Radium from 'radium'
 import classes from './Person.module.css'
-import { isClassExpression } from '@babel/types'
 
 class Person extends Component {
 

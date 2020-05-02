@@ -6,7 +6,7 @@ class Persons extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         console.log('[Persons.js] shouldComponentUpdate called.')
-        if(nextProps.persons != this.props.persons) {
+        if(nextProps.persons !== this.props.persons) {
             return true;
         }
         return false;

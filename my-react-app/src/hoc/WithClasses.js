@@ -4,7 +4,7 @@ import React from 'react';
 const withClasses = (WrappeComponent, className) => {
     return props => (
         <div className={className}>
-            <WrappeComponent />
+            <WrappeComponent {...props} />
         </div>
     );
 } 

@@ -1,9 +1,12 @@
 import React from 'react';
-import { tsPropertySignature } from '@babel/types';
 
 
-const WithClasses = props => (
-    <div className={props.classes}> {props.children} </div>
-);
+const withClasses = (WrappeComponent, className) => {
+    return props => (
+        <div className={className}>
+            <WrappeComponent />
+        </div>
+    );
+} 
 
-export default WithClasses;
+export default withClasses;

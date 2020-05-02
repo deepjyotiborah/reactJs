@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/cockpit/cockpit'
 import classes from './App.module.css'
-import WithClasses from '../hoc/WithClasses'
+import withClasses from '../hoc/withClasses'
+import Aux from '../hoc/Aux'
 
 class AppUse extends Component {
 
@@ -72,7 +73,7 @@ class AppUse extends Component {
             )
         }
         return (
-            <WithClasses classes={classes.App}>
+            <Aux>
                 <button onClick={() => this.setState({showCockpit: false})}> Remove cockpit</button>
                 {this.state.showCockpit ? 
                ( <Cockpit
@@ -82,9 +83,9 @@ class AppUse extends Component {
                     personsLength={this.state.persons.length}
                /> ) : null}
                 {persons}
-            </WithClasses>
+            </Aux>
         );
     }
 }
 
-export default AppUse;
+export default withClasses(AppUse, classes.AppUse);

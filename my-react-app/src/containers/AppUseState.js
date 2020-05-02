@@ -20,7 +20,8 @@ class AppUse extends Component {
         ],
         otherState: 'Some other state',
         showPersons: true,
-        showCockpit: true
+        showCockpit: true, 
+        changeCounter: 0
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -46,7 +47,12 @@ class AppUse extends Component {
         const persons = [...this.state.persons];
         persons[personIdx] = person;
 
-        this.setState({ persons: persons });
+        this.setState((prevState, props) => {
+            return { 
+                persons: persons,
+                changeCounter: prevState.changeCounter + 1
+             }
+        });
     }
 
     deletePersonHandler = (index) => {

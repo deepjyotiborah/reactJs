@@ -25,7 +25,7 @@ class Persons extends Component {
     componentWillUnmount() {
         console.log("[Persons.js] componentWillUnmount called.")
     }
-
+    
     render() {
         console.log('[Persons.js] rendering...')
 

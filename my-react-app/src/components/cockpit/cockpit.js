@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import classes from './cockpit.module.css'
-
+import AuthContext from './../../context/auth-context'
 
 
 const Cockpit = props => {
@@ -39,10 +39,18 @@ const Cockpit = props => {
         }
     }
 
+    const authHandler = () => {
+
+    }
+
     return (
         <div className={classes.Cockpit}>
             <h1> {props.appTitle}</h1>
             <p className={getClasses()}>This is really working!!!</p>
+            <AuthContext.Consumer>
+                {(context) => <button onClick={context.login}> LogIn</button>}
+            </AuthContext.Consumer>
+            
             <button  
                 ref={toggleBtnRef}
                 className={getBtnClass()}

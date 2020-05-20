@@ -61,6 +61,7 @@ class BurgerBuilder extends Component {
             disabledInfo[key] = disabledInfo[key] <= 0 
         }
 
+        
         return(
             <Aux>
                 <Burger ingredients={this.state.ingredients}/>

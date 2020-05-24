@@ -3,7 +3,7 @@ import Aux from '../../hoc/Aux'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
-import OrderSummary from '../../components/OrderSummary/OrderSummary'
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 
 const INGREDIENT_PRICES = {
     salad: 2,
@@ -36,6 +36,7 @@ class BurgerBuilder extends Component {
     }
 
     addIngredientHandler = (type) => {
+        console.log("adding items...")
         const oldCount = this.state.ingredients[type];
         const updatedCount = oldCount + 1;
         const updateIngredients = {

@@ -35,8 +35,7 @@ class BurgerBuilder extends Component {
         this.setState({purchasable: sum > 0});
     }
 
-    addIngredientHandler = (type) => {
-        console.log("adding items...")
+    ingredientAdded = (type) => {
         const oldCount = this.state.ingredients[type];
         const updatedCount = oldCount + 1;
         const updateIngredients = {
@@ -90,7 +89,6 @@ class BurgerBuilder extends Component {
             disabledInfo[key] = disabledInfo[key] <= 0 
         }
 
-        
         return(
             <Aux>
                 <Modal show={this.state.purchasing} modelClosed={this.purchaseCancelHandler}>
@@ -103,8 +101,8 @@ class BurgerBuilder extends Component {
                 </Modal>
                 <Burger ingredients={this.state.ingredients}/>
                 <div>Burger Controls</div>
-                <BuildControls addIngredient={this.addIngredientHandler}
-                                removeIngredient={this.removeIngredientHandler} 
+                <BuildControls ingredientAdded={this.ingredientAdded}
+                                ingredientRemoved={this.removeIngredientHandler} 
                                 disabled={disabledInfo} 
                                 price={this.state.totalPrice} 
                                 purchasable={!this.state.purchasable} 

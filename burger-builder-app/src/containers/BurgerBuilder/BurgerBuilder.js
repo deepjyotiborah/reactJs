@@ -17,26 +17,30 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0
-        },
+        ingredients: null,
         totalPrice: 10,
-        purchasable: false, 
+        purchasable: false,
         purchasing: false,
-        loading: false
+        loading: false,
+        error: false
     };
 
+    componentWillMount() {
+        axios.get("https://project-deep-40d1e.firebaseio.com/ingredients.json")
+            .then(response => {
+                this.setState({ ingredients: response.data })
+            }).catch(err => {
+                this.setState({error: true})
+            });
+    }
     updatePurchaseState(ingredients) {
         const sum = Object.keys(ingredients)
-                            .map(igKey => {
-                                return ingredients[igKey]
-                            }).reduce((sum, elemCount) => {
-                                return sum + elemCount
-                            },0);
-        this.setState({purchasable: sum > 0});
+            .map(igKey => {
+                return ingredients[igKey]
+            }).reduce((sum, elemCount) => {
+                return sum + elemCount
+            }, 0);
+        this.setState({ purchasable: sum > 0 });
     }
 
     ingredientAdded = (type) => {
@@ -49,8 +53,10 @@ class BurgerBuilder extends Component {
         const priceAddition = INGREDIENT_PRICES[type];
         const oldPrice = this.state.totalPrice;
         const updatedPrice = oldPrice + priceAddition;
-        this.setState({totalPrice: updatedPrice,
-                       ingredients: updateIngredients});
+        this.setState({
+            totalPrice: updatedPrice,
+            ingredients: updateIngredients
+        });
         this.updatePurchaseState(updateIngredients);
     };
 
@@ -67,21 +73,23 @@ class BurgerBuilder extends Component {
         const priceDeduction = INGREDIENT_PRICES[type];
         const oldPrice = this.state.totalPrice;
         const updatedPrice = oldPrice - priceDeduction;
-        this.setState({totalPrice: updatedPrice,
-                       ingredients: updateIngredients});
+        this.setState({
+            totalPrice: updatedPrice,
+            ingredients: updateIngredients
+        });
         this.updatePurchaseState(updateIngredients);
     };
 
     purchaseHandler = () => {
-        this.setState({purchasing: true});
+        this.setState({ purchasing: true });
     }
 
     purchaseCancelHandler = () => {
-        this.setState({purchasing: false});
+        this.setState({ purchasing: false });
     }
 
     purchaseContinueHandler = () => {
-        this.setState({loading: true});
+        this.setState({ loading: true });
         const order = {
             ingredients: this.state.ingredients,
             totalPrice: this.state.totalPrice,
@@ -89,15 +97,15 @@ class BurgerBuilder extends Component {
                 name: 'Deepjyoti Borah',
                 address: {
                     street: '38th cross',
-                    zipcode:'560043',
+                    zipcode: '560043',
                     country: 'India'
                 },
-                email:'test@test.com'
+                email: 'test@test.com'
             },
-            deliveryMethod:'fastest'
+            deliveryMethod: 'fastest'
         };
 
-       axios.post('/orders.json', order)
+        axios.post('/orders.json', order)
             .then(response => {
                 this.setState({
                     loading: false,
@@ -118,34 +126,44 @@ class BurgerBuilder extends Component {
         };
 
         for (let key in disabledInfo) {
-            disabledInfo[key] = disabledInfo[key] <= 0 
+            disabledInfo[key] = disabledInfo[key] <= 0
         }
-       
-        let orderSummery = <OrderSummary 
-            ingredients={this.state.ingredients}
-            purchaseCancelled={this.purchaseCancelHandler}
-            purchaseContinue={this.purchaseContinueHandler}
-            price={this.state.totalPrice}
-        />;
+
+        let burger = this.state.error ? "Error: Ingredients can't be loaded!!" : <Spinner />;
+        let orderSummery = null;
+        if(this.state.ingredients) {
+             burger = (
+                <Aux>
+                    <Burger ingredients={this.state.ingredients} />
+                    <div>Burger Controls</div>
+                    <BuildControls ingredientAdded={this.ingredientAdded}
+                        ingredientRemoved={this.removeIngredientHandler}
+                        disabled={disabledInfo}
+                        price={this.state.totalPrice}
+                        purchasable={!this.state.purchasable}
+                        ordered={this.purchaseHandler} />
+                </Aux>
+            );
+
+           orderSummery = <OrderSummary
+                                    ingredients={this.state.ingredients}
+                                    purchaseCancelled={this.purchaseCancelHandler}
+                                    purchaseContinue={this.purchaseContinueHandler}
+                                    price={this.state.totalPrice}
+                                />;
+        }
 
         if (this.state.loading) {
             orderSummery = <Spinner />
         }
+        
 
-        return(
+        return (
             <Aux>
                 <Modal show={this.state.purchasing} modelClosed={this.purchaseCancelHandler}>
                     {orderSummery}
                 </Modal>
-                <Burger ingredients={this.state.ingredients}/>
-                <div>Burger Controls</div>
-                <BuildControls ingredientAdded={this.ingredientAdded}
-                                ingredientRemoved={this.removeIngredientHandler} 
-                                disabled={disabledInfo} 
-                                price={this.state.totalPrice} 
-                                purchasable={!this.state.purchasable} 
-                                ordered={this.purchaseHandler}/>
-                
+                {burger}
             </Aux>
         )
     }

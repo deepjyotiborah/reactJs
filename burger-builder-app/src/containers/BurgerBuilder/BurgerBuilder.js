@@ -31,9 +31,10 @@ class BurgerBuilder extends Component {
             .then(response => {
                 this.setState({ ingredients: response.data })
             }).catch(err => {
-                this.setState({error: true})
+                this.setState({ error: true })
             });
     }
+
     updatePurchaseState(ingredients) {
         const sum = Object.keys(ingredients)
             .map(igKey => {
@@ -132,8 +133,8 @@ class BurgerBuilder extends Component {
 
         let burger = this.state.error ? "Error: Ingredients can't be loaded!!" : <Spinner />;
         let orderSummery = null;
-        if(this.state.ingredients) {
-             burger = (
+        if (this.state.ingredients) {
+            burger = (
                 <Aux>
                     <Burger ingredients={this.state.ingredients} />
                     <div>Burger Controls</div>
@@ -146,18 +147,18 @@ class BurgerBuilder extends Component {
                 </Aux>
             );
 
-           orderSummery = <OrderSummary
-                                    ingredients={this.state.ingredients}
-                                    purchaseCancelled={this.purchaseCancelHandler}
-                                    purchaseContinue={this.purchaseContinueHandler}
-                                    price={this.state.totalPrice}
-                                />;
+            orderSummery = <OrderSummary
+                ingredients={this.state.ingredients}
+                purchaseCancelled={this.purchaseCancelHandler}
+                purchaseContinue={this.purchaseContinueHandler}
+                price={this.state.totalPrice}
+            />;
         }
 
         if (this.state.loading) {
             orderSummery = <Spinner />
         }
-        
+
 
         return (
             <Aux>

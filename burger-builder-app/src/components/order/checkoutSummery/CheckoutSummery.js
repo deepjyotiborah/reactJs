@@ -5,9 +5,7 @@ import classes  from './CheckoutSummery.css';
 
 
 class CheckoutSummery extends Component {
-    componentDidUpdate() {
-        console.log("Ingregientssss==>" + this.props.ingredients)
-    }
+ 
     render() {
         return(
             <div className={classes.CheckoutSummery}>
@@ -15,8 +13,8 @@ class CheckoutSummery extends Component {
                 <div style={{width:'100%', margin:'auto'}}>
                     <Burger ingredients={this.props.ingredients}/>
                 </div>
-                <Button btnType='Danger' clicked>CANCEL</Button>
-                <Button btnType='Success' clicked>CONTINUE</Button>
+                <Button btnType='Danger' clicked={this.props.checkoutCancelled}>CANCEL</Button>
+                <Button btnType='Success' clicked={this.props.checkoutContinue}>CONTINUE</Button>
     
             </div>
         )

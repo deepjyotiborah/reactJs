@@ -25,7 +25,7 @@ class BurgerBuilder extends Component {
         error: false
     };
 
-    componentWillMount() {
+    componentDidMount() {
         console.log("componentWillMount from burgerBuilder");
         axios.get("https://project-deep-40d1e.firebaseio.com/ingredients.json")
             .then(response => {
@@ -35,15 +35,17 @@ class BurgerBuilder extends Component {
             });
     }
 
-    updatePurchaseState(ingredients) {
-        const sum = Object.keys(ingredients)
-            .map(igKey => {
-                return ingredients[igKey]
-            }).reduce((sum, elemCount) => {
-                return sum + elemCount
-            }, 0);
-        this.setState({ purchasable: sum > 0 });
+    updatePurchaseState ( ingredients ) {
+        const sum = Object.keys( ingredients )
+            .map( igKey => {
+                return ingredients[igKey];
+            } )
+            .reduce( ( sum, el ) => {
+                return sum + el;
+            }, 0 );
+        this.setState( { purchasable: sum > 0 } );
     }
+
 
     ingredientAdded = (type) => {
         const oldCount = this.state.ingredients[type];
@@ -91,36 +93,38 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        this.setState({ loading: true });
-        const order = {
-            ingredients: this.state.ingredients,
-            totalPrice: this.state.totalPrice,
-            customer: {
-                name: 'Deepjyoti Borah',
-                address: {
-                    street: '38th cross',
-                    zipcode: '560043',
-                    country: 'India'
-                },
-                email: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
-        };
+        // this.setState({ loading: true });
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     totalPrice: this.state.totalPrice,
+        //     customer: {
+        //         name: 'Deepjyoti Borah',
+        //         address: {
+        //             street: '38th cross',
+        //             zipcode: '560043',
+        //             country: 'India'
+        //         },
+        //         email: 'test@test.com'
+        //     },
+        //     deliveryMethod: 'fastest'
+        // };
 
         
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({
-                    loading: false,
-                    purchasing: false
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    loading: false,
-                    purchasing: false
-                });
-            })
+        // axios.post('/orders.json', order)
+        //     .then(response => {
+        //         this.setState({
+        //             loading: false,
+        //             purchasing: false
+        //         });
+        //     })
+        //     .catch(error => {
+        //         this.setState({
+        //             loading: false,
+        //             purchasing: false
+        //         });
+        //     })
+        this.props.history.push('/checkout');
+        
     }
 
     render() {

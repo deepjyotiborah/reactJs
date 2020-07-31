@@ -4,6 +4,7 @@ import classes from './ContactData.css'
 import axios from '../../hoc/axios-orders';
 import Spinner from '../../components/UI/spinner/Spinner';
 import { withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class ContactData extends Component {
 
@@ -21,7 +22,7 @@ class ContactData extends Component {
         event.preventDefault();
         this.setState({ loading: true });
         const order = {
-            ingredients: this.props.ingredients,
+            ingredients: this.props.ins,
             totalPrice: this.props.price,
             customer: {
                 name: 'Deepjyoti Borah',
@@ -70,4 +71,11 @@ class ContactData extends Component {
     }
 }
 
-export default withRouter(ContactData);
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        price: state.totalPrice
+    }
+}
+
+export default connect(mapStateToProps)(withRouter(ContactData));  

@@ -5,10 +5,10 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter} from 'react-router-dom';
 import { Provider } from  'react-redux';
-import  { createStore } from 'redux';
-import reduer from './store/reducer';
+import  { createStore   } from 'redux';
+import burgerBuilderReduer from './store/reducers/burgerBuilder';
 
-const store = createStore(reduer);
+const store = createStore(burgerBuilderReduer);
 
 const app = (
   <Provider store={store}>

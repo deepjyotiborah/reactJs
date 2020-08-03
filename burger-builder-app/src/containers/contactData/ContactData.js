@@ -5,6 +5,8 @@ import axios from '../../hoc/axios-orders';
 import Spinner from '../../components/UI/spinner/Spinner';
 import { withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import * as actions from '../../store/actions/index';
 
 class ContactData extends Component {
 
@@ -14,8 +16,7 @@ class ContactData extends Component {
         address: {
             street: "",
             postalCode: ""
-        },
-        loading: false
+        }
     }
 
     orderHandler = (event) => {
@@ -36,19 +37,8 @@ class ContactData extends Component {
             deliveryMethod: 'fastest'
         };
 
+        this.props.onOrderBurger(order);
         
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({
-                    loading: false
-                });
-                this.props.history.push('/');
-            })
-            .catch(error => {
-                this.setState({
-                    loading: false
-                });
-            })
     }
     render() {
         let form = (<form>
@@ -78,4 +68,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(ContactData));  
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+    }
+}
+
+export default connect(mapStateToProps)(withErrorHandler(ContactData, axios));  

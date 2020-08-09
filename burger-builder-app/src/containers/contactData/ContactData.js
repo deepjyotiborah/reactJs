@@ -23,7 +23,7 @@ class ContactData extends Component {
         event.preventDefault();
         this.setState({ loading: true });
         const order = {
-            ingredients: this.props.ins,
+            ingredients: this.props.ings,
             totalPrice: this.props.price,
             customer: {
                 name: 'Deepjyoti Borah',
@@ -64,7 +64,7 @@ class ContactData extends Component {
 const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.ingredientstotalPrice,
+        price: state.burgerBuilder.totalPrice,
         loading: state.order.loading
     }
 }
